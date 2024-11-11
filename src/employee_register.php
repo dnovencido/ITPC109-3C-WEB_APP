@@ -1,4 +1,14 @@
 <?php
+
+    include "models/registration.php";
+    include "session.php";
+
+    $errors = [];
+    
+    if(isset($_SESSION['id'])) {
+        header("Location: account");
+    }
+
     if(isset($_POST['submit'])) {
         if(!$_POST['name']) {
             $errors[] = "Name is required";
@@ -16,8 +26,23 @@
         }
 
         if(empty($errors)) {
-            echo "Successfully registered";
-            exit;
+            if(!check_existing_email($_POST['email'])) {
+                $user = save_registration($_POST['name'],$_POST['email'], $_POST['password']);
+                if(!empty($user)) {
+                    // Set session variables
+                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['name'] = $user['name'];
+
+                    $_SESSION['flash_message'] = "You have successfully registered.";
+
+                    // Redirect user to employee account and will be logged in.
+                    header("Location: /employee/account");
+                } else {
+                    $errors[] = "There was an error logging in your account.";
+                }
+            } else {
+                $errors[] = "Email address already exist.";
+            }
         }
 
     } else {    

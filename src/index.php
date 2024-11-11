@@ -8,7 +8,7 @@
                 <a href="#" class="btn btn-md btn-rounded">Explore our menu.</a> 
             </div>
             <div id="banner-image">
-                <img src="/assets/img/banner-image.png" alt="Banner Image">
+                <img src="assets/img/banner-image.png" alt="Banner Image">
             </div>
         </section>
     </header>

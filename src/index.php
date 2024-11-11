@@ -21,7 +21,7 @@
                 <div id="about-content">
                     <div id="primary-item">
                         <div id="primary-item-image">
-                            <img src="assets/img/about-primary-image.jpg" alt="" class="thumbnail">
+                            <img src="assets/img/about-featured-image.jpg" alt="" class="thumbnail">
                         </div>
                         <div id="primary-item-heading">
                             <p>

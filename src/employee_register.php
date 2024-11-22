@@ -1,41 +1,35 @@
 <?php
-
     include "models/registration.php";
     include "session.php";
 
     $errors = [];
-    
+
     if(isset($_SESSION['id'])) {
         header("Location: account");
     }
 
     if(isset($_POST['submit'])) {
         if(!$_POST['name']) {
-            $errors[] = "Name is required";
+            $errors[] = "Name is required.";
         }
         if(!$_POST['email']) {
-            $errors[] = "Email is required";
+            $errors[] = "Email is required.";
         }
-
         if(!$_POST['password']) {
-            $errors[] = "Password is required";
-        } else {
-            if($_POST['password'] != $_POST['confirm_password']) {
-                $errors[] = "You must confirm your password";
-            }    
+            $errors[] = "Password is required.";
         }
 
+        if($_POST['password'] != $_POST['confirm_password']) {
+            $errors[] = "You must confirm your password.";
+        }
+        
         if(empty($errors)) {
             if(!check_existing_email($_POST['email'])) {
                 $user = save_registration($_POST['name'],$_POST['email'], $_POST['password']);
                 if(!empty($user)) {
-                    // Set session variables
                     $_SESSION['id'] = $user['id'];
                     $_SESSION['name'] = $user['name'];
 
-                    $_SESSION['flash_message'] = "You have successfully registered.";
-
-                    // Redirect user to employee account and will be logged in.
                     header("Location: /employee/account");
                 } else {
                     $errors[] = "There was an error logging in your account.";
@@ -44,8 +38,7 @@
                 $errors[] = "Email address already exist.";
             }
         }
-
-    } else {    
+    } else {
         $_POST = [
             'name' => '',
             'password' => '',
@@ -58,22 +51,22 @@
     <main class="content">
         <section id="signup" class="container">
             <div id="signup-form">
-                <?php if(!empty($errors)) { ?>
+                <?php if (!empty($errors)) { ?>
                     <?php include "layouts/_errors.php" ?>
-                <?php }?> 
+                <?php } ?>
                 <div class="form card">
                     <h1>Sign up to your account.</h1>
-                    <form  method="post">
+                    <form method="post">
                         <div class="input-control">
                             <label for="name">Name: </label>
                             <input type="text" name="name" class="input-field input-md" value="<?= $_POST['name'] ?>" />
                         </div>
                         <div class="input-control">
-                            <label for="name">Email: </label>
+                            <label for="email">Email: </label>
                             <input type="email" name="email" class="input-field input-md" value="<?= $_POST['email'] ?>" />
                         </div>
                         <div class="input-control">
-                            <label for="name">Password: </label>
+                            <label for="password">Password: </label>
                             <input type="password" name="password" class="input-field input-md" value="<?= $_POST['password'] ?>" />
                         </div>
                         <div class="input-control">
